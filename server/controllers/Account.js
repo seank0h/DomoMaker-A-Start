@@ -8,7 +8,32 @@ const loginPage = (req, res) => {
 const signupPage = (req, res) => {
   res.render('signup');
 };
+
+const logout = (req, res) => {
+  res.redirect('/');
+};
+
+const login = (request, response) => {
+  /*
+  const req = request;
+  const res = response;
+  const username = `${req.body.username}`;
+  const password = `${req.body.pass}`;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: 'Rawr! All fields are required' });
+  }
+
+  return Account.AccountModel.authenticate(username, password, (err, account) => {
+    if (err || !account) {
+      return res.status(401).json({ error: 'Wrong username or password' });
+    }
+    return res.json({ redirect: '/maker' });
+  });
+  */
+};
 const signup = (request, response) => {
+  /*
   const req = request;
   const res = response;
 
@@ -48,37 +73,13 @@ const signup = (request, response) => {
       return res.status(400).json({ error: 'An error Occurred' });
     });
   });
-};
-const logout = (req, res) => {
-    req.session.destroy();
-  res.redirect('/');
+  */
 };
 
-const login = (request, response) => {
-  const req = request;
-  const res = response;
-  const username = `${req.body.username}`;
-  const password = `${req.body.pass}`;
-
-  if (!username || !password) {
-    return res.status(400).json({ error: 'Rawr! All fields are required' });
-  }
-
-  return Account.AccountModel.authenticate(username, password, (err, account) => {
-    if (err || !account) {
-      return res.status(401).json({ error: 'Wrong username or password' });
-    }
-    return res.json({ redirect: '/maker' });
-  });
-};
-
-const signout = (req, res) => {
-
-};
 
 module.exports.loginPage = loginPage;
 module.exports.signupPage = signupPage;
 module.exports.signup = signup;
 module.exports.logout = logout;
 module.exports.login = login;
-module.exports.signout = signout;
+
