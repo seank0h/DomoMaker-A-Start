@@ -14,7 +14,6 @@ const logout = (req, res) => {
 };
 
 const login = (request, response) => {
-  
   const req = request;
   const res = response;
   const username = `${req.body.username}`;
@@ -30,10 +29,8 @@ const login = (request, response) => {
     }
     return res.json({ redirect: '/maker' });
   });
-  
 };
 const signup = (request, response) => {
-  
   const req = request;
   const res = response;
 
@@ -73,7 +70,6 @@ const signup = (request, response) => {
       return res.status(400).json({ error: 'An error Occurred' });
     });
   });
-  
 };
 
 
