@@ -2,11 +2,11 @@ const models = require('../models');
 const Account = models.Account;
 
 const loginPage = (req, res) => {
-  res.render('login');
+  res.render('login', { crsfToken: req.crsfToken() });
 };
 
 const signupPage = (req, res) => {
-  res.render('signup');
+  res.render('signup', { crsfToken: req.crsfToken() });
 };
 
 const logout = (req, res) => {

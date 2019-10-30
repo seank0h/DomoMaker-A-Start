@@ -10,7 +10,7 @@ const makerPage = (req, res) => {
         error: 'An Error has Occured',
       });
     }
-    return res.render('app', { domos: docs });
+    return res.render('app', { crsfToken: req.crsfToken(), domos: docs });
   });
 };
 const makeDomo = (req, res) => {
