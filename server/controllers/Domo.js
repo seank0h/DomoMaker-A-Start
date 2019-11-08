@@ -37,7 +37,7 @@ const makeDomo = (req, res) => {
       return res.status(400).json({ error: 'Domo already exists' });
     }
 
-    return res.status(400).json({ error: 'An Error Occurred' });
+    return res.status(400).json({ error: 'An Error Occurred in Making' });
   });
   return domoPromise;
 };
@@ -49,13 +49,13 @@ const getDomos = (request, response) => {
   return Domo.DomoModel.findbyOwner(req.session.account._id, (err, docs) => {
     if (err) {
       console.log(err);
-      return res.status(400).json({ error: 'An error occured' });
+      return res.status(400).json({ error: 'An error occured in Getting' });
     }
     return res.json({ domos: docs });
   });
 };
-
-const deleteQuest = (request,response) => {
+/*
+const deleteQuest = (request, response) => {
   const req = request;
   const res = response;
 
@@ -64,11 +64,14 @@ const deleteQuest = (request,response) => {
       console.log(err);
       return res.status(400).json({ error: 'An error occured' });
     }
-   
+    console.log(req.session.domoList);
+   // Domo.DomoModel.deleteOne(req.session.domos.name, res);
+   return res.json({ domos: docs });
   });
 };
+*/
 module.exports.makerPage = makerPage;
 module.exports.make = makeDomo;
 module.exports.getDomos = getDomos;
-module.exports.deleteQuest = deleteQuest;
+// module.exports.deleteQuest = deleteQuest;
 

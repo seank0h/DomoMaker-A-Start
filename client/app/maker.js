@@ -3,7 +3,7 @@ const handleDomo = (e) =>{
 
     $("#domoMessage").animate({width:'hide'},350);
 
-    if($("#domoName").val()==''|| $("#domoAge").val()=='' || $("#exp").val()==''||$("#questType".val()==''))
+    if($("#domoName").val()==''|| $("#domoAge").val()=='' || $("#exp").val()==''||$("#questType").val()=='')
     {
         handleError("Rawr! All fields are required");
         return false;
@@ -11,10 +11,16 @@ const handleDomo = (e) =>{
 
     sendAjax('POST',$("#domoForm").attr("action"), $("#domoForm").serialize(), function(){
         loadDomosFromServer();
+        
     });
+    
     return false;
 };
+const deleteQuest = (e) =>{
+    e.preventDefault();
+    
 
+}
 const DomoForm = (props) =>{
     return(
         <form id="domoForm" name="domoForm"
@@ -49,15 +55,28 @@ const DomoList = function(props)
     }
 const domoNodes = props.domos.map(function(domo)
 {
+    /*
+    this.state = {
+        domo: []
+      }
+      this.delete = this.delete.bind(this);
+      delete(id)
+      {
+        this.setState(prevState => ({
+            domo: prevState.data.filter(el => el != id )
+        }));
+   }
+   */
+   
     return(
         <div key={domo._id} className="domo">
             <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace"/>
             <h3 className="domoName">Name: {domo.name}</h3>
             <h3 className="domoAge">Age: {domo.age}</h3>
             <h3 className="questType">Quest Type: {domo.questType}</h3>
-            <h3 className="experience">EXP: {domo.exp}</h3>
+            <h3 className="experience">EXP: {domo.experience}</h3>
             <div class="navlink"><a id="editButton" href="/editQuest">Edit</a></div>
-            <div class="navlink"><a id="deleteButton" href="/deleteQuest">Delete</a></div>
+            <div class="navlink"><a id="deleteButton" href="/deleteQuest" onClick ={deleteQuest}>Delete</a></div>
         </div>
     );
 });
@@ -67,7 +86,25 @@ return (
     </div>
 );
 };
-
+/*
+const questDropDown = function()
+{
+    
+    return(
+        <Dropdown>
+  <Dropdown.Toggle variant="success" id="dropdown-basic">
+   Quest Types:
+  </Dropdown.Toggle>
+  <Dropdown.Menu>
+    <Dropdown.Item>Daily</Dropdown.Item>
+    <Dropdown.Item>Weekly</Dropdown.Item>
+    <Dropdown.Item>Monthly</Dropdown.Item>
+    <Dropdown.Item>Special</Dropdown.Item>
+  </Dropdown.Menu>
+  </Dropdown>
+    )
+}
+*/
 const loadDomosFromServer = () =>{
     sendAjax('GET', '/getDomos', null, (data) =>{
         ReactDOM.render(
@@ -75,27 +112,22 @@ const loadDomosFromServer = () =>{
         );
     });
 };
+const deleteQuestFromServer = ()=>{
 
+}
 const setup = function(csrf){
     ReactDOM.render(
         <DomoForm csrf ={csrf}/>, document.querySelector("#makeDomo")
     );
-
+    /*
     ReactDOM.render(
-        <DomoList domos ={csrf}/>, document.querySelector("#domos")
+        <questDropDown/>,document.querySelector("#questType")
     );
-    const editButton = document.querySelector("#editButton");
-    const deleteButton = document.querySelector("#deleteButton");
-    editButton.addEventListener("click", (e)=>{
-        e.preventDefault();
-        
-        return false;
-    });
-    deleteButton.addEventListener("click", (e)=>{
-        e.preventDefault();
-        
-        return false;
-    });
+    */
+    ReactDOM.render(
+        <DomoList domos ={[]}/>, document.querySelector("#domos")
+    );
+  
     loadDomosFromServer();
 };
 
