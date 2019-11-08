@@ -14,12 +14,14 @@ const makerPage = (req, res) => {
   });
 };
 const makeDomo = (req, res) => {
-  if (!req.body.name || !req.body.age) {
-    return res.status(400).json({ error: 'Rawr: Both name and age are required' });
+  if (!req.body.name || !req.body.age || !req.body.exp || !req.body.questType) {
+    return res.status(400).json({ error: 'Rawr: All parameters are required' });
   }
   const domoData = {
     name: req.body.name,
     age: req.body.age,
+    questType: req.body.questType,
+    experience: req.body.exp,
     owner: req.session.account._id,
   };
 
@@ -52,6 +54,21 @@ const getDomos = (request, response) => {
     return res.json({ domos: docs });
   });
 };
+
+const deleteQuest = (request,response) => {
+  const req = request;
+  const res = response;
+
+  return Domo.DomoModel.findbyOwner(req.session.account._id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occured' });
+    }
+   
+  });
+};
 module.exports.makerPage = makerPage;
 module.exports.make = makeDomo;
 module.exports.getDomos = getDomos;
+module.exports.deleteQuest = deleteQuest;
+

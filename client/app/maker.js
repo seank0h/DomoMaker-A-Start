@@ -3,7 +3,7 @@ const handleDomo = (e) =>{
 
     $("#domoMessage").animate({width:'hide'},350);
 
-    if($("#domoName").val()==''|| $("#domoAge").val()=='')
+    if($("#domoName").val()==''|| $("#domoAge").val()=='' || $("#exp").val()==''||$("#questType".val()==''))
     {
         handleError("Rawr! All fields are required");
         return false;
@@ -27,6 +27,10 @@ const DomoForm = (props) =>{
             <input id="domoName" type="text" name="name" placeholder ="Domo Name"/>
             <label htmlFor ="age">Age: </label>
             <input id="domoAge" type="text" name="age" placeholder ="Domo Age"/>
+            <label htmlFor ="Quest Type">Quest Type: </label>
+            <input id="questType" type="text" name="questType" placeholder ="Quest Type"/>
+            <label htmlFor ="Experience">Experience: </label>
+            <input id="exp" type="text" name="exp" placeholder ="EXP Reward"/>
             <input type="hidden" name="_csrf" value={props.csrf}/>
             <input className ="makeDomoSubmit" type="submit" value ="Make Domo"/>
         </form>
@@ -49,7 +53,11 @@ const domoNodes = props.domos.map(function(domo)
         <div key={domo._id} className="domo">
             <img src="/assets/img/domoface.jpeg" alt="domo face" className="domoFace"/>
             <h3 className="domoName">Name: {domo.name}</h3>
-            <h3 className="domoAge">Age: {domo.name}</h3>
+            <h3 className="domoAge">Age: {domo.age}</h3>
+            <h3 className="questType">Quest Type: {domo.questType}</h3>
+            <h3 className="experience">EXP: {domo.exp}</h3>
+            <div class="navlink"><a id="editButton" href="/editQuest">Edit</a></div>
+            <div class="navlink"><a id="deleteButton" href="/deleteQuest">Delete</a></div>
         </div>
     );
 });
@@ -76,7 +84,18 @@ const setup = function(csrf){
     ReactDOM.render(
         <DomoList domos ={csrf}/>, document.querySelector("#domos")
     );
-
+    const editButton = document.querySelector("#editButton");
+    const deleteButton = document.querySelector("#deleteButton");
+    editButton.addEventListener("click", (e)=>{
+        e.preventDefault();
+        
+        return false;
+    });
+    deleteButton.addEventListener("click", (e)=>{
+        e.preventDefault();
+        
+        return false;
+    });
     loadDomosFromServer();
 };
 

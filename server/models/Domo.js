@@ -30,11 +30,22 @@ const DomoSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  questType: {
+    type:String,
+    required: true,
+  },
+  exp: {
+    type: Number,
+    required: true,
+    min:0,
+  }
 });
 // Static function to get the name and age from client
 DomoSchema.statics.toAPI = (doc) => ({
   name: doc.name,
   age: doc.age,
+  questType: doc.questType,
+  exp: doc.exp
 });
 
 // Find its owner
@@ -42,9 +53,17 @@ DomoSchema.statics.findbyOwner = (ownerId, callback) => {
   const search = {
     owner: convertID(ownerId),
   };
-  return DomoModel.find(search).select('name age').exec(callback);
+  return DomoModel.find(search).select('name age questType exp').exec(callback);
 };
+//Find by username and then edit.
+//Find Quest By ID and delete
+DomoSchema.statics.deleteOne=(name, callback) =>{
+  const search = {
+    name: name,
+  };
+  return DomoModel.findOneAndDelete(search,callback);
 
+}
 DomoModel = mongoose.model('Domo', DomoSchema);
 
 module.exports.DomoModel = DomoModel;
