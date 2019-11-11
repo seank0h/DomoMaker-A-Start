@@ -11,9 +11,9 @@ const router = (app) => {
   app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
   // app.get('/deleteQuest', mid.requiresLogin, controllers.Domo.deleteQuest);
-  app.get('/maker', mid.requiresLogin, controllers.Domo.makerPage);
-  app.post('/maker', mid.requiresLogin, controllers.Domo.make);
-  app.get('/getDomos', mid.requiresLogin, controllers.Domo.getDomos);
+  app.get('/maker', mid.requiresLogin, controllers.Quest.makerPage);
+  app.post('/maker', mid.requiresLogin, controllers.Quest.make);
+  app.get('/getQuests', mid.requiresLogin, controllers.Quest.getQuests);
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
 

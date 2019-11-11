@@ -1,17 +1,17 @@
 "use strict";
 
-var handleDomo = function handleDomo(e) {
+var handleQuest = function handleQuest(e) {
     e.preventDefault();
 
-    $("#domoMessage").animate({ width: 'hide' }, 350);
+    $("#questMessage").animate({ width: 'hide' }, 350);
 
-    if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#exp").val() == '' || $("#questType").val() == '') {
+    if ($("#questName").val() == '' || $("#exp").val() == '' || $("#questType").val() == '') {
         handleError("Rawr! All fields are required");
         return false;
     }
 
-    sendAjax('POST', $("#domoForm").attr("action"), $("#domoForm").serialize(), function () {
-        loadDomosFromServer();
+    sendAjax('POST', $("#questForm").attr("action"), $("#questForm").serialize(), function () {
+        loadQuestsFromServer();
     });
 
     return false;
@@ -19,27 +19,21 @@ var handleDomo = function handleDomo(e) {
 var deleteQuest = function deleteQuest(e) {
     e.preventDefault();
 };
-var DomoForm = function DomoForm(props) {
+var QuestForm = function QuestForm(props) {
     return React.createElement(
         "form",
-        { id: "domoForm", name: "domoForm",
-            onSubmit: handleDomo,
+        { id: "questForm", name: "questForm",
+            onSubmit: handleQuest,
             action: "/maker",
             method: "POST",
-            className: "domoForm"
+            className: "questForm"
         },
         React.createElement(
             "label",
             { htmlFor: "name" },
             "Name: "
         ),
-        React.createElement("input", { id: "domoName", type: "text", name: "name", placeholder: "Domo Name" }),
-        React.createElement(
-            "label",
-            { htmlFor: "age" },
-            "Age: "
-        ),
-        React.createElement("input", { id: "domoAge", type: "text", name: "age", placeholder: "Domo Age" }),
+        React.createElement("input", { id: "questName", type: "text", name: "name", placeholder: "Quest Name" }),
         React.createElement(
             "label",
             { htmlFor: "Quest Type" },
@@ -53,23 +47,23 @@ var DomoForm = function DomoForm(props) {
         ),
         React.createElement("input", { id: "exp", type: "text", name: "exp", placeholder: "EXP Reward" }),
         React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
-        React.createElement("input", { className: "makeDomoSubmit", type: "submit", value: "Make Domo" })
+        React.createElement("input", { className: "makeQuestSubmit", type: "submit", value: "Make Quest" })
     );
 };
 
-var DomoList = function DomoList(props) {
-    if (props.domos.length === 0) {
+var QuestList = function QuestList(props) {
+    if (props.quest.length === 0) {
         return React.createElement(
             "div",
-            { className: "domoList" },
+            { className: "questList" },
             React.createElement(
                 "h3",
-                { className: "emptyDomo" },
-                "No Domos Yet"
+                { className: "emptyQuest" },
+                "No Quests Yet"
             )
         );
     }
-    var domoNodes = props.domos.map(function (domo) {
+    var questNodes = props.quest.map(function (quest) {
         /*
         this.state = {
             domo: []
@@ -85,31 +79,25 @@ var DomoList = function DomoList(props) {
 
         return React.createElement(
             "div",
-            { key: domo._id, className: "domo" },
-            React.createElement("img", { src: "/assets/img/domoface.jpeg", alt: "domo face", className: "domoFace" }),
+            { key: quest._id, className: "quest" },
+            React.createElement("img", { src: "/assets/img/scrollQuest.png", alt: "domo face", className: "scrollQuest" }),
             React.createElement(
                 "h3",
-                { className: "domoName" },
+                { className: "questName" },
                 "Name: ",
-                domo.name
-            ),
-            React.createElement(
-                "h3",
-                { className: "domoAge" },
-                "Age: ",
-                domo.age
+                quest.name
             ),
             React.createElement(
                 "h3",
                 { className: "questType" },
                 "Quest Type: ",
-                domo.questType
+                quest.questType
             ),
             React.createElement(
                 "h3",
                 { className: "experience" },
                 "EXP: ",
-                domo.experience
+                quest.experience
             ),
             React.createElement(
                 "div",
@@ -133,8 +121,8 @@ var DomoList = function DomoList(props) {
     });
     return React.createElement(
         "div",
-        { className: "domoList" },
-        domoNodes
+        { className: "questList" },
+        questNodes
     );
 };
 /*
@@ -156,22 +144,22 @@ const questDropDown = function()
     )
 }
 */
-var loadDomosFromServer = function loadDomosFromServer() {
-    sendAjax('GET', '/getDomos', null, function (data) {
-        ReactDOM.render(React.createElement(DomoList, { domos: data.domos }), document.querySelector("#domos"));
+var loadQuestsFromServer = function loadQuestsFromServer() {
+    sendAjax('GET', '/getQuests', null, function (data) {
+        ReactDOM.render(React.createElement(QuestList, { quests: data.quests }), document.querySelector("#quests"));
     });
 };
 var deleteQuestFromServer = function deleteQuestFromServer() {};
 var setup = function setup(csrf) {
-    ReactDOM.render(React.createElement(DomoForm, { csrf: csrf }), document.querySelector("#makeDomo"));
+    ReactDOM.render(React.createElement(QuestForm, { csrf: csrf }), document.querySelector("#makeQuest"));
     /*
     ReactDOM.render(
         <questDropDown/>,document.querySelector("#questType")
     );
     */
-    ReactDOM.render(React.createElement(DomoList, { domos: [] }), document.querySelector("#domos"));
+    ReactDOM.render(React.createElement(QuestList, { quests: [] }), document.querySelector("#quests"));
 
-    loadDomosFromServer();
+    loadQuestsFromServer();
 };
 
 var getToken = function getToken() {
@@ -187,11 +175,11 @@ $(document).ready(function () {
 
 var handleError = function handleError(message) {
     $("#errorMessage").text(message);
-    $("#domoMessage").animate({ width: 'toggle' }, 350);
+    $("#questMessage").animate({ width: 'toggle' }, 350);
 };
 
 var redirect = function redirect(response) {
-    $("#domoMessage").animate({ width: 'hide' }, 350);
+    $("#questMessage").animate({ width: 'hide' }, 350);
     window.location = response.redirect;
 };
 
